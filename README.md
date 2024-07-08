@@ -54,6 +54,7 @@ This code will check the button input 10 times, but it also means that the perso
 
 ### main.html
 - Install the [npm Intellisense](https://marketplace.visualstudio.com/items?itemName=christian-kohler.npm-intellisense) and [Path Intellisense](https://marketplace.visualstudio.com/items?itemName=christian-kohler.path-intellisense) libraries within VS Code from the Extensions (Ctrl+Shift+X).
+- Install Node.js from [How to Install Node.js](https://nodejs.org/en/learn/getting-started/how-to-install-nodejs)
 - Open the ouput window, click on the drop-dwon next to the '+' sign to open the Command Prompt. Type ```npm i ws``` to install websocket libraries
 - Copy and paste this code in VS Code or even NotePad, and save it as a .html file.
 - Go to your browser and type the entire file address in the address bar; for example, if the file is saved in C:/Snehgal/FCT and named main.html, then type *C:/Snehgal/FCT/main.html* in your browser.
