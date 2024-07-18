@@ -52,7 +52,8 @@ double count=0;
 
 void loop() {
   count=count+0.01;
-  int a,b;
+  int a=1;
+  int b=1;
   //a=1 b=1 -> no input
   //a=0 b=0 -> help
   //a=1 b=0 -> yes
