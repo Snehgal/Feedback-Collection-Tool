@@ -3,9 +3,7 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 
 require('dotenv').config();
 const uri = process.env.MONGODB_URI;
-
-// const t = require('dotenv').config({ path: './GITI/MongoDB Method/.env' });
-// console.log('t:',t);
+const wsIPport = "ws://192.168.1.6:81"; //change IP and port
 
 let client;
 let db;
@@ -86,7 +84,7 @@ async function getLabID(tableID) {
 function pc_to_esp8266() {
     if (webSocket == null) {
         // Replace "<ESP8266_IP_ADDRESS>" with your ESP8266 IP address
-        webSocket = new WebSocket("ws://192.168.1.6:81");
+        webSocket = new WebSocket(wsIPport);
         webSocket.onopen = ws_onopen;
         webSocket.onclose = ws_onclose;
         webSocket.onmessage = ws_onmessage;
