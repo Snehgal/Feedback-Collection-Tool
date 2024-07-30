@@ -175,15 +175,18 @@ async function logToResponses(labID, tableID, value) {
     const responseLoggingCollection = db.collection('Responses');
     const responseLoggingDoc = {
         date: new Date(),
-        labID: labID,
-        tableID: tableID,
         response: value === 1 // true if value is 1, otherwise false
     };
+
     try {
-        await responseLoggingCollection.insertOne(responseLoggingDoc);
-        console.log('Inserted document into Responses');
+        await responseLoggingCollection.updateOne(
+            { labID: labID, tableID: tableID },
+            { $set: responseLoggingDoc },
+            { upsert: true } // This will insert the document if it doesn't exist
+        );
+        console.log('Updated or inserted document into Responses');
     } catch (error) {
-        console.error("Error inserting document into Responses", error);
+        console.error("Error updating or inserting document into Responses", error);
     }
 }
 
