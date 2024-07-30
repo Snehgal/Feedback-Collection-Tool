@@ -1,12 +1,13 @@
+//rememeber to run only when in the file .../GITI/Method3_MongoDBmethod/Website
 const express = require('express');
 const bodyParser = require('body-parser');
 const { MongoClient, ServerApiVersion } = require('mongodb');
-
+require('dotenv').config({ path: '../.env' });
 const app = express();
 const port = 3000; // Or any port you prefer
 
 // MongoDB connection URI
-const uri = "mongodb+srv://Snehgal2005:d5hduzSqbGvGrPr7@snehgalcluster1.w87bs85.mongodb.net/?appName=SnehgalCluster1";
+const uri = process.env.MONGODB_URI;
 let client;
 let db;
 

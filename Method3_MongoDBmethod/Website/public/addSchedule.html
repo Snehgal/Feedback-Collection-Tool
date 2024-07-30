@@ -127,7 +127,7 @@
             // Convert UTC date to IST (UTC+5:30)
             const istOffset = 5 * 60 + 30; // IST is UTC+5:30
             return new Date(new Date(date).getTime() + istOffset * 60 * 1000);
-            }
+        }
 
         // Function to populate the dropdown menu with room numbers
         function populateRoomNumbers() {
@@ -152,46 +152,50 @@
         document.addEventListener('DOMContentLoaded', populateRoomNumbers);
 
         document.getElementById('scheduleForm').addEventListener('submit', function(event) {
-    event.preventDefault();
+            event.preventDefault();
 
-    const courseCode = document.getElementById('courseCode').value;
-    const batch = document.getElementById('batch').value;
-    const labNumber = document.getElementById('labNumber').value;
-    const roomNumber = document.getElementById('roomNumber').value;
-    const startTime = new Date(document.getElementById('startTime').value).toISOString();
-    const endTime = new Date(document.getElementById('endTime').value).toISOString();
+            const courseCode = document.getElementById('courseCode').value;
+            const batch = document.getElementById('batch').value;
+            let labNumber = document.getElementById('labNumber').value;
+            const roomNumber = document.getElementById('roomNumber').value;
+            const startTime = new Date(document.getElementById('startTime').value).toISOString();
+            const endTime = new Date(document.getElementById('endTime').value).toISOString();
 
-    const labID = `${courseCode}-${batch}-${labNumber}`;
-    const labNo = roomNumber;
+            // Pad single-digit labNumber with zero
+            if (labNumber < 10) {
+                labNumber = labNumber.padStart(2, '0');
+            }
 
-    const record = {
-        labID: labID,
-        labNo: labNo,
-        startTime: startTime,
-        endTime: endTime
-    };
+            const labID = `${courseCode}-${batch}-${labNumber}`;
+            const labNo = roomNumber;
 
-    fetch('/add-schedule', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(record),
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.message === 'Record with this labID already exists') {
-            alert('Record with this labID already exists.');
-        } else {
-            alert('Record added successfully!');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Failed to add record.');
-    });
-});
+            const record = {
+                labID: labID,
+                labNo: labNo,
+                startTime: startTime,
+                endTime: endTime
+            };
 
+            fetch('/add-schedule', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(record),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === 'Record with this labID already exists') {
+                    alert('Record with this labID already exists.');
+                } else {
+                    alert('Record added successfully!');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to add record.');
+            });
+        });
     </script>
 </body>
 </html>
