@@ -1,7 +1,7 @@
 //rememeber to run only when in the file .../GITI/Method3_MongoDBmethod
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
-require('dotenv').config();
+require('dotenv').config({path: "./GITI/Method3_MongoDBmethod/.env"});
 const uri = process.env.MONGODB_URI;
 const wsIPport = "ws://192.168.1.6:81"; //change IP and port
 
@@ -15,6 +15,7 @@ function toIST(date) {
 }
 
 async function connectToMongoDB() {
+    console.log("Connecting...");
     if (!client) {
         client = new MongoClient(uri, {
             serverApi: {
@@ -23,6 +24,7 @@ async function connectToMongoDB() {
                 deprecationErrors: true,
             }
         });
+
         try {
             await client.connect();
             db = client.db("ResponseLogging");
@@ -31,7 +33,6 @@ async function connectToMongoDB() {
             // Ensure indexes for faster lookups
             await db.collection('Tables').createIndex({ tableID: 1 }); // Index on tableID array elements
             await db.collection('Schedule').createIndex({ labNo: 1, startTime: 1, endTime: 1 }); // Index on labNo, startTime, and endTime
-
         } catch (error) {
             console.error("Error connecting to MongoDB", error);
             throw error;
@@ -221,13 +222,13 @@ async function test() {
     await emptyCollection("Helps");
     await emptyCollection("Responses");
 
-    // Mock WebSocket messages
-    await ws_onmessage({ data: "9001\t2" });
-    await ws_onmessage({ data: "9001\t1" });
-    await ws_onmessage({ data: "10002\t0" });
-    await ws_onmessage({ data: "10002\t1" });
-    await ws_onmessage({ data: "9001\t0" });
-    await ws_onmessage({ data: "9001\t2" });
+    // // Mock WebSocket messages
+    // await ws_onmessage({ data: "9001\t2" });
+    // await ws_onmessage({ data: "9001\t1" });
+    // await ws_onmessage({ data: "10002\t0" });
+    // await ws_onmessage({ data: "10002\t1" });
+    // await ws_onmessage({ data: "9001\t0" });
+    // await ws_onmessage({ data: "9001\t2" });
     //help table 9001 complete
     //response table, 9001 - false and 10002 - true
 

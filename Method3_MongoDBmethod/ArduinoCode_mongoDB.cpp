@@ -7,11 +7,14 @@ int response;
 WebSocketsServer webSocket = WebSocketsServer(81);  // WebSocket server on port 81
 
 // setting the ID for the device
-int numberOfDevicesConnected=4;
-const int moduleID=1000;
-int ids[numberOfDevicesConnected];
-for(int i=1;i<=numberOfDevicesConnected;i++){
-  ids[i-1]=moduleID+i;
+const int numDev=4; //number of deviced connected
+int moduleID=1000;
+int ids[numDev];
+
+void setupID(){
+  for(int i=1;i<=numDev;i++){
+    ids[i-1]=moduleID+i;
+}
 }
 
 void handleWebSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length) {
@@ -33,6 +36,7 @@ void handleWebSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t 
 }
 
 void setup() {
+  setupID();
   Serial.begin(115200);
   pinMode(D0, INPUT_PULLUP);
   pinMode(D1, INPUT_PULLUP);
@@ -61,7 +65,7 @@ void sendData(int id,int value){
     // Format data as a string: int1 \t int2 \t int3 \t int4
   String dataToSend = String(id) + "\t" + String(value);
   webSocket.broadcastTXT(dataToSend);
-  serial.print(dataToSend);
+  Serial.print(dataToSend);
 }
 
 void decryptInput(int a,int b,int id){
@@ -92,21 +96,21 @@ void loop() {
   //first module button D0,D1
   a=digitalRead(D0);
   b=digitalRead(D1);
-  decryptInput(a,b,ids[0])
+  decryptInput(a,b,ids[0]);
   //second module button D2,D3
   a=digitalRead(D2);
   b=digitalRead(D3);
-  decryptInput(a,b,ids[1])
+  decryptInput(a,b,ids[1]);
 
   //third module button D4,D5
   a=digitalRead(D4);
   b=digitalRead(D5);
-  decryptInput(a,b,ids[1])
+  decryptInput(a,b,ids[1]);
 
   //fourth module button D6,D7
   a=digitalRead(D6);
   b=digitalRead(D7);
-  decryptInput(a,b,ids[1])
+  decryptInput(a,b,ids[1]);
 
   
   webSocket.loop();  // Handle WebSocket events
