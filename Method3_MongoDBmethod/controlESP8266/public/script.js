@@ -1,3 +1,7 @@
+// button
+document.getElementById('help-btn').onclick = function() {
+    window.open('https://help-responses.onrender.com', '_blank');
+};
 
 // Function to load room numbers into the dropdown
 function loadRoomNumbers() {
