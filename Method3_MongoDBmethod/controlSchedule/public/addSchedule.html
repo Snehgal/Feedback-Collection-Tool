@@ -34,7 +34,7 @@
             z-index: 1000;
         }
 
-        #container {
+        #containerS {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -106,7 +106,7 @@
             background-color: #6c757d;
         }
 
-        #data-container-wrapper {
+        #data-containerS-wrapper {
             width: 80%;
             max-width: 800px;
             height: 60vh;
@@ -119,7 +119,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        #data-container-wrapper h2 {
+        #data-containerS-wrapper h2 {
             margin-top: 0;
             font-size: 20px;
             color: #007BFF;
@@ -127,7 +127,7 @@
             position: relative;
         }
 
-        #data-container-wrapper h2::after {
+        #data-containerS-wrapper h2::after {
             content: '';
             display: block;
             width: 220px;
@@ -175,7 +175,7 @@
 
 <body>
     <header>Add Schedule Record</header>
-    <div id="container">
+    <div id="containerS">
         <!-- Schedule Form -->
         <form id="scheduleForm">
             <div class="form-row">
@@ -212,12 +212,12 @@
         </form>
     
         <!-- Data Display Section -->
-        <div id="data-container-wrapper">
+        <div id="data-containerS-wrapper">
             <h2 id="data-heading" style="font-weight: bold; cursor: pointer;">
                 <span id="toggle-indicator" style="font-size: 18px; margin-left: 10px;">▼</span>
                 Current Records
             </h2>
-            <div id="data-container">
+            <div id="data-containerS">
                 <!-- Records will be appended here -->
             </div>
         </div>
@@ -226,15 +226,15 @@
     <script>
         // Toggle visibility of records
         const dataHeading = document.getElementById('data-heading');
-        const dataContainer = document.getElementById('data-container');
+        const dataContainerS = document.getElementById('data-containerS');
         const toggleIndicator = document.getElementById('toggle-indicator');
     
         dataHeading.addEventListener('click', function () {
-            if (dataContainer.style.display === 'none') {
-                dataContainer.style.display = 'block';
+            if (dataContainerS.style.display === 'none') {
+                dataContainerS.style.display = 'block';
                 toggleIndicator.textContent = '▼'; // Up arrow when expanded
             } else {
-                dataContainer.style.display = 'none';
+                dataContainerS.style.display = 'none';
                 toggleIndicator.textContent = '▶'; // Down arrow when collapsed
             }
         });
@@ -295,8 +295,8 @@
                     return response.json();
                 })
                 .then(records => {
-                    const dataContainer = document.getElementById('data-container');
-                    dataContainer.innerHTML = '';
+                    const dataContainerS = document.getElementById('data-containerS');
+                    dataContainerS.innerHTML = '';
     
                     if (records.length > 0) {
                         // Create headings
@@ -309,7 +309,7 @@
                             <span>Start Time</span>
                             <span>End Time</span>
                         `;
-                        dataContainer.appendChild(headings);
+                        dataContainerS.appendChild(headings);
     
                         // Populate records
                         records.forEach((record, index) => {
@@ -322,10 +322,10 @@
                                 <span>${new Date(record.startTime).toLocaleString()}</span>
                                 <span>${new Date(record.endTime).toLocaleString()}</span>
                             `;
-                            dataContainer.appendChild(entry);
+                            dataContainerS.appendChild(entry);
                         });
                     } else {
-                        dataContainer.innerHTML = '<div>No records found</div>';
+                        dataContainerS.innerHTML = '<div>No records found</div>';
                     }
                 })
                 .catch(error => {
