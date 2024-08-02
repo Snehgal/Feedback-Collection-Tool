@@ -56,7 +56,7 @@ header {
     padding-bottom: 50px; /* Space for footer */
 }
 #data-containerS-wrapper {
-    width: 80%;
+    width: 200%;
     max-width: 800px;
     height: 60vh;
     margin-top: 10px;
@@ -170,6 +170,17 @@ button:hover {
     color: #fff;
     font-size: 16px;
     box-shadow: inset 0px 0px 35px -15px rgba(0, 0, 0, 0.664);
+}
+button.active {
+    background-color: #f7a009;
+    color: #fff;
+}
+#dashboard-btn.active,
+#activity-btn.active,
+#schedule-section-btn.active,
+#help-btn.active {
+    background-color: #f7a009;
+    color: #fff;
 }
 button:disabled {
     background-color: #6c757d;
