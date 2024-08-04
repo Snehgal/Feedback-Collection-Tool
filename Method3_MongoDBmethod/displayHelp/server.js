@@ -41,7 +41,7 @@ function toIST(date) {
 
 app.get('/', async (req, res) => {
   try {
-      const currentTime = toIST(new Date());
+      const currentTime = (new Date());
       console.log('Current date and time in IST:', currentTime.toISOString());
 
       // Get ongoing schedules
@@ -95,7 +95,7 @@ app.get('/lab/:labID', async (req, res) => {
       // Convert helpStarted to IST for the specific lab
       const helpsInIST = helps.map(help => ({
           ...help,
-          helpStarted: toIST(help.helpStarted) // Convert helpStarted to IST
+          helpStarted: (help.helpStarted) // Convert helpStarted to IST
       }));
 
       console.log('Helps for labID:', labID, helpsInIST);
