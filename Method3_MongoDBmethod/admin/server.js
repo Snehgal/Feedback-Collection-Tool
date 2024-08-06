@@ -136,7 +136,7 @@ async function logToResponses(labID, tableID, value) {
 
     try {
         await responseLoggingCollection.updateOne(
-            { labID: labID, date:nowDate, tableID: tableID },
+            { labID: labID, tableID: tableID },
             { $set: responseLoggingDoc },
             { upsert: true }
         );
@@ -297,8 +297,8 @@ app.listen(port, async () => {
     await connectToMongoDB(); // Ensure connection is established once at startup
     console.log(`Express server running at http://localhost:${port}`);
     // Uncomment if you want to empty collections
-    // await emptyCollection("Helps");
-    // await emptyCollection("Responses");
+    await emptyCollection("Helps");
+    await emptyCollection("Responses");
     setupWebSocketServer();
 });
 

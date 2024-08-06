@@ -16,10 +16,10 @@ let db;
 let webSocketServer;
 
 function toIST(date) {
-    // // Convert UTC date to IST (UTC+5:30)
-    // const istOffset = 5 * 60 + 30; // IST is UTC+5:30
-    // return new Date(new Date(date).getTime() + istOffset * 60 * 1000);
-    return date;
+    // Convert UTC date to IST (UTC+5:30)
+    const istOffset = 5 * 60 + 30; // IST is UTC+5:30
+    return new Date(new Date(date).getTime() + istOffset * 60 * 1000);
+    // return date;
 }
 
 async function connectToMongoDB() {
@@ -67,7 +67,7 @@ async function getLabID(tableID) {
             throw new Error(`Invalid labNo retrieved for tableID: ${tableID}`);
         }
 
-        const currentTime = new Date();
+        const currentTime = toIST(new Date());
 
         const schedule = await db.collection('Schedule').findOne({
             labNo: labNo,
@@ -98,10 +98,11 @@ async function logToHelps(labID, tableID) {
         const helpLoggingDoc = {
             labID: labID,
             tableID: tableID,
-            helpStarted: new Date()
+            helpStarted: toIST(new Date())
         };
         try {
             await helpLoggingCollection.insertOne(helpLoggingDoc);
+            console.log(toIST(new Date()));
             console.log('Inserted new document into Helps');
         } catch (error) {
             console.error("Error inserting document into Helps", error);
@@ -110,8 +111,9 @@ async function logToHelps(labID, tableID) {
         try {
             await helpLoggingCollection.updateOne(
                 { _id: latestRecord._id },
-                { $set: { helpEnded: new Date() } }
+                { $set: { helpEnded: toIST(new Date()) } }
             );
+            console.log(toIST(new Date()));
             console.log('Updated document in Helps with helpEnded');
         } catch (error) {
             console.error("Error updating document in Helps", error);
@@ -122,16 +124,17 @@ async function logToHelps(labID, tableID) {
 async function logToResponses(labID, tableID, value) {
     const responseLoggingCollection = db.collection('Responses');
     const responseLoggingDoc = {
-        date: new Date(),
+        date: toIST(new Date()),
         response: value === 1
     };
 
     try {
         await responseLoggingCollection.updateOne(
-            { labID: labID, tableID: tableID },
-            { $set: responseLoggingDoc },
-            { upsert: true }
+            { labID: labID, tableID: tableID }, // Query to find the document
+            { $set: responseLoggingDoc }, // Update operation
+            { upsert: true } // Create a new document if no matching document is found
         );
+        console.log(toIST(new Date()));
         console.log('Updated or inserted document into Responses');
     } catch (error) {
         console.error("Error updating or inserting document into Responses", error);
