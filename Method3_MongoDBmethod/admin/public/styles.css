@@ -1,3 +1,4 @@
+/* Overall Styles */
 body {
     font-family: 'Montserrat', sans-serif;
     margin: 0;
@@ -5,6 +6,7 @@ body {
     background-color: #f0f0f0;
     scroll-behavior: smooth; /* Smooth scrolling */
 }
+
 header {
     width: 100%;
     padding: 10px;
@@ -21,6 +23,8 @@ header {
     left: 0;
     z-index: 1000;
 }
+
+/* Sections */
 .section {
     width: 100%;
     height: 100%;
@@ -29,17 +33,21 @@ header {
     align-items: center;
     justify-content: center;
 }
+
 #dashboard-section {
     background: #21313C;
     margin-top: 3%;
     height: 600px;
 }
+
 #activity-section {
     background-color: #ffffff;
     border-top: 2px solid #007bff;
     border-bottom: 2px solid #007bff;
     margin-bottom: 20px;
 }
+
+/* Containers */
 #container {
     padding-top: 60px; /* Space for fixed header */
     padding-bottom: 40px; /* Space for footer */
@@ -47,19 +55,19 @@ header {
     max-width: 800px;
     margin: 0 auto;
 }
+
 #containerS {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    flex: 1;
     padding-top: 60px; /* Space for fixed header */
     padding-bottom: 50px; /* Space for footer */
 }
+
+/* Data Container */
 #data-containerS-wrapper {
-    width: 200%;
-    max-width: 800px;
-    height: 500px;
+    width: 100%;
     margin-top: -20px;
     margin-bottom: 20px;
     border: 1px solid #ddd;
@@ -72,7 +80,7 @@ header {
 
 #data-containerS-wrapper h2 {
     margin-top: 0;
-    font-size: 20px;
+    font-size: 18px;
     color: #007BFF;
     text-align: center;
     position: relative;
@@ -108,6 +116,8 @@ header {
 .data-entry.record {
     background-color: #f9f9f9;
 }
+
+/* Form Styling */
 form {
     display: flex;
     flex-direction: column;
@@ -126,6 +136,7 @@ form {
 .form-row div {
     flex: 1;
 }
+
 label {
     display: block;
     margin-bottom: 5px;
@@ -140,18 +151,22 @@ select {
     font-family: 'Montserrat', sans-serif;
     font-weight: 400; /* Normal */
 }
+
+/* Button Styling */
 #controls {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-bottom: 10px;
 }
+
 #button-container {
     display: flex;
     flex-direction: row;
     align-items: center;
     margin-bottom: 10px;
 }
+
 button {
     font-family: 'Montserrat', sans-serif;
     padding: 10px 20px;
@@ -168,16 +183,19 @@ button {
     box-shadow: 2px 2px 8px rgba(126, 124, 120, 0.664);
     transition: background-color 0.2s;
 }
+
 button:hover {
     background-color: #f7a009;
     color: #fff;
     font-size: 16px;
     box-shadow: inset 0px 0px 35px -15px rgba(0, 0, 0, 0.664);
 }
+
 button.active {
     background-color: #f7a009;
     color: #fff;
 }
+
 #dashboard-btn.active,
 #activity-btn.active,
 #schedule-section-btn.active,
@@ -185,15 +203,20 @@ button.active {
     background-color: #f7a009;
     color: #fff;
 }
+
 button:disabled {
     background-color: #6c757d;
 }
+
+/* Status */
 #status {
     font-size: 16px;
     color: #000000;
     min-height: 20px;
     text-align: center;
 }
+
+/* Data Container Wrapper */
 #data-container-wrapper {
     width: 100%;
     height: 60vh;
@@ -206,6 +229,7 @@ button:disabled {
     padding: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
 #data-container-wrapper h2 {
     margin-top: 0;
     font-size: 20px;
@@ -213,6 +237,7 @@ button:disabled {
     text-align: center;
     position: relative;
 }
+
 #data-container-wrapper h2::after {
     content: '';
     display: block;
@@ -221,13 +246,8 @@ button:disabled {
     background-color: #007BFF;
     margin: 2px auto 0;
 }
-.data-entry {
-    margin-bottom: 5px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-}
+
+/* Footer */
 footer {
     width: 100%;
     padding: 10px;
@@ -240,7 +260,8 @@ footer {
     bottom: 0;
     left: 0;
 }
-/* Styling for the iframe */
+
+/* iFrame */
 #dashboard-iframe {
     background: #21313C;
     border: none;
@@ -249,29 +270,35 @@ footer {
     width: 100%;
     height: 100%;
 }
+
+/* Navigation */
 nav {
     position: fixed;
     top: 60px; /* Below the header */
     right: 10px;
     z-index: 1001;
 }
+
 nav button {
     margin: 5px;
 }
+
 .active {
     background-color: #f7a009 !important;
 }
+
+/* Modal */
 .modal {
-    display:none;
-    position:fixed;
+    display: none;
+    position: fixed;
     z-index: 1;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgb(0,0,0);
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
     padding-top: 20px;
 }
 
@@ -296,4 +323,98 @@ nav button {
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+/* Data Container S Wrapper */
+#data-containerS-wrapper {
+    width: 100%; /* Full width */
+    max-width: 800px;
+    margin-top: 20px; /* Adjusted margin */
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    overflow: hidden; /* Hide overflow to maintain layout */
+    background-color: #fff;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#data-containerS-wrapper h2 {
+    margin-top: 0;
+    font-size: 20px;
+    color: #007BFF;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    transition: height 0.3s ease-in-out; /* Smooth transition */
+}
+
+#data-containerS-wrapper.collapsed h2 {
+    height: 30px;
+    overflow: hidden;
+}
+
+#data-containerS-wrapper.expanded h2 {
+    height: auto;
+}
+
+/* Chips Styling */
+.chip {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #007BFF;
+    color: white;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.chip:hover {
+    background-color: #0056b3;
+}
+
+.chip.selected {
+    background-color: #f7a009;
+    color: #fff;
+}
+
+.chip.dropdown {
+    position: relative;
+}
+
+.chip-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 150px;
+    z-index: 1001;
+}
+
+.chip-dropdown select {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+.chip:hover .chip-dropdown {
+    display: block;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .form-row {
+        flex-direction: column;
+    }
+
+    #button-container {
+        flex-direction: column;
+    }
 }

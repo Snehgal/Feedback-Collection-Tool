@@ -26,25 +26,20 @@ function loadRoomNumbers() {
         });
 }
 
-
-// Load room numbers on page load
-window.onload = function () {
-    loadRoomNumbers();
-    loadRecords(); // Ensure this is called after loadRoomNumbers if needed
-};
-
 // Toggle visibility of records
 const dataHeading = document.getElementById('data-heading');
 const dataContainerS = document.getElementById('data-containerS');
 const toggleIndicator = document.getElementById('toggle-indicator');
 
 dataHeading.addEventListener('click', function () {
-    if (dataContainerS.style.display === 'none') {
-        dataContainerS.style.display = 'block';
-        toggleIndicator.textContent = '▼'; // Up arrow when expanded
+    if (dataContainerS.classList.contains('collapsed')) {
+        dataContainerS.classList.remove('collapsed');
+        dataContainerS.classList.add('expanded');
+        toggleIndicator.textContent = '▲'; // Up arrow when expanded
     } else {
-        dataContainerS.style.display = 'none';
-        toggleIndicator.textContent = '▶'; // Down arrow when collapsed
+        dataContainerS.classList.remove('expanded');
+        dataContainerS.classList.add('collapsed');
+        toggleIndicator.textContent = '▼'; // Down arrow when collapsed
     }
 });
 
@@ -82,7 +77,7 @@ document.getElementById('scheduleForm').addEventListener('submit', function (eve
     const labNoElem = document.getElementById('roomNumber');
     const startTimeElem = document.getElementById('startTime');
     const endTimeElem = document.getElementById('endTime');
-    console.log(courseCodeElem,batchElem,labNumberElem,labNoElem,startTimeElem,endTimeElem);
+    
     if (!courseCodeElem || !batchElem || !labNumberElem || !labNoElem || !startTimeElem || !endTimeElem) {
         console.error('One or more form elements are missing.');
         return;
@@ -130,7 +125,6 @@ document.getElementById('scheduleForm').addEventListener('submit', function (eve
     });
 });
 
-
 // Load records from the server
 function loadRecords() {
     fetch('/get-records')
@@ -145,30 +139,17 @@ function loadRecords() {
             dataContainerS.innerHTML = '';
 
             if (records.length > 0) {
-                // Create headings
-                const headings = document.createElement('div');
-                headings.classList.add('data-entry', 'headings');
-                headings.innerHTML = `
-                        <span>Sr. No</span>
-                        <span>Lab ID</span>
-                        <span>Room Number</span>
-                        <span>Start Time</span>
-                        <span>End Time</span>
-                    `;
-                dataContainerS.appendChild(headings);
-
-                // Populate records
+                // Populate records as cards
                 records.forEach((record, index) => {
-                    const entry = document.createElement('div');
-                    entry.classList.add('data-entry', 'record');
-                    entry.innerHTML = `
-                            <span>${index + 1}</span>
-                            <span>${record.labID}</span>
-                            <span>${record.labNo}</span>
-                            <span>${new Date(record.startTime).toLocaleString()}</span>
-                            <span>${new Date(record.endTime).toLocaleString()}</span>
-                        `;
-                    dataContainerS.appendChild(entry);
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.innerHTML = `
+                        <span><strong>Lab ID:</strong> ${record.labID}</span>
+                        <span><strong>Room Number:</strong> ${record.labNo}</span>
+                        <span><strong>Start Time:</strong> ${new Date(record.startTime).toLocaleString()}</span>
+                        <span><strong>End Time:</strong> ${new Date(record.endTime).toLocaleString()}</span>
+                    `;
+                    dataContainerS.appendChild(card);
                 });
             } else {
                 dataContainerS.innerHTML = '<div>No records found</div>';
@@ -179,9 +160,22 @@ function loadRecords() {
         });
 }
 
-// Load records on page load
+document.getElementById('search-input').addEventListener('input', function() {
+    const query = this.value.toLowerCase();
+    const cards = document.querySelectorAll('#data-containerS .card');
+
+    cards.forEach(card => {
+        const cardText = card.textContent.toLowerCase();
+        if (cardText.includes(query)) {
+            card.style.display = '';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+});
+
+// Load room numbers and records on page load
 window.onload = function () {
     loadRoomNumbers();
     loadRecords();
 };
-
