@@ -175,7 +175,7 @@ app.post('/log-issue', async (req, res) => {
             labID: labID,
             tableID: parseInt(tableID),
             issue,
-            issueRaised: new Date(time)
+            issueRaised: time
         };
 
         // Insert the new issue into UnresolvedHelps

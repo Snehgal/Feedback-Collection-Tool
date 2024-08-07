@@ -297,8 +297,9 @@ app.listen(port, async () => {
     await connectToMongoDB(); // Ensure connection is established once at startup
     console.log(`Express server running at http://localhost:${port}`);
     // Uncomment if you want to empty collections
-    await emptyCollection("Helps");
-    await emptyCollection("Responses");
+    // await emptyCollection("Helps");
+    // await emptyCollection("Responses");
+    // await emptyCollection("UnresolvedHelps");
     setupWebSocketServer();
 });
 
