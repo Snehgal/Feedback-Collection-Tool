@@ -2,11 +2,11 @@
 #include <WebSocketsClient.h>
 
 // WiFi credentials
-const char* ssid = "Airtel_Khanna_OAK502";     // Replace with your WiFi credentials
-const char* password = "Avni@2011";
+const char* ssid = "CS";     // Replace with your WiFi credentials
+const char* password = "AELien2005";
 
 // WebSocket server address
-const char* webSocketServerAddress = "192.168.1.16"; // IP of the Node.js server
+const char* webSocketServerAddress = "192.168.62.147"; // IP of the Node.js server
 const int webSocketServerPort = 8080;
 const char* webSocketServerPath = "/";
 

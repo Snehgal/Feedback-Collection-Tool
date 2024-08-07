@@ -51,7 +51,7 @@ ws.on('open', () => {
         '19001\t1',
         '20002\t0',
         '21003\t1',
-        '22004\t0'
+        '22004\t0',
     ];
 
     dataPoints.forEach((data, index) => {
