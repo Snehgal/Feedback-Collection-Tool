@@ -2,7 +2,9 @@
 document.getElementById('help-btn').onclick = function() {
     window.open('https://help-responses.onrender.com', '_blank');
 };
-
+document.getElementById('dshbrd').onclick = function() {
+    window.open('https://dashboard-e9g1.onrender.com/', '_blank');
+};
 // Function to load room numbers into the dropdown
 function loadRoomNumbers() {
     fetch('/get-room-numbers')
