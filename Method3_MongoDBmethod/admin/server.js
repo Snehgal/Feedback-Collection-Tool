@@ -6,7 +6,7 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 require('dotenv').config({ path: "../.env" });
 
 const app = express();
-const port = 3000; // Port for the Express server
+const port = 4000; // Port for the Express server
 const wsPort = 8080; // Port for the WebSocket server
 
 const uri = process.env.MONGODB_URI;

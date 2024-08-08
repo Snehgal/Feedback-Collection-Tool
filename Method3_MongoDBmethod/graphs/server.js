@@ -38,10 +38,28 @@ connectDB();
 
 app.get('/', async (req, res) => {
     try {
+        // const rooms = await db.collection('Schedule').distinct('labNo');
+        // const courses = await db.collection('Schedule').distinct('labID');
+
+        // // Extract batches and labs and sort them
+        // const batches = [...new Set(courses.map(course => course.split('-')[1]))].sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+        // const labs = [...new Set(courses.map(course => course.split('-')[2]))].sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+
+        // // Sort rooms and courses
+        // const sortedRooms = rooms.sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+        // const sortedCourses = courses.sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+
+        // return {
+        //     rooms: sortedRooms,
+        //     courses: sortedCourses,
+        //     batches: batches,
+        //     labs: labs
+        // };
         const rooms = await db.collection('Schedule').distinct('labNo');
-        const courses = await db.collection('Schedule').distinct('labID');
-        const batches = [...new Set(courses.map(course => course.split('-')[1]))];
-        const labs = [...new Set(courses.map(course => course.split('-')[2]))];
+        const ids = await db.collection('Schedule').distinct('labID');
+        const courses = [...new Set(ids.map(course => course.split('-')[0]))].sort();
+        const batches = [...new Set(ids.map(course => course.split('-')[1]))].sort();
+        const labs = [...new Set(ids.map(course => course.split('-')[2]))].sort();
 
         res.render('index', { rooms, courses, batches, labs });
     } catch (error) {
