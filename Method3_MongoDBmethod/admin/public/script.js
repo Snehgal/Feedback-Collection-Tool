@@ -34,14 +34,12 @@ const dataContainerS = document.getElementById('data-containerS');
 const toggleIndicator = document.getElementById('toggle-indicator');
 
 dataHeading.addEventListener('click', function () {
-    if (dataContainerS.classList.contains('collapsed')) {
-        dataContainerS.classList.remove('collapsed');
-        dataContainerS.classList.add('expanded');
-        toggleIndicator.textContent = '▲'; // Up arrow when expanded
+    if (dataContainerS.style.display === 'none') {
+        dataContainerS.style.display = 'block';
+        toggleIndicator.textContent = '▼'; // Up arrow when expanded
     } else {
-        dataContainerS.classList.remove('expanded');
-        dataContainerS.classList.add('collapsed');
-        toggleIndicator.textContent = '▼'; // Down arrow when collapsed
+        dataContainerS.style.display = 'none';
+        toggleIndicator.textContent = '▶'; // Down arrow when collapsed
     }
 });
 
@@ -141,17 +139,33 @@ function loadRecords() {
             dataContainerS.innerHTML = '';
 
             if (records.length > 0) {
-                // Populate records as cards
+                // Create headings
+                const headings = document.createElement('div');
+                headings.classList.add('data-entry', 'headings');
+                headings.innerHTML = `
+                    <span>Sr. No</span>
+                    <span>Lab ID</span>
+                    <span>Room Number</span>
+                    <span>Date</span>
+                    <span>Start Time</span>
+                    <span>End Time</span>
+                `;
+                dataContainerS.appendChild(headings);
+
+                // Populate records
                 records.forEach((record, index) => {
-                    const card = document.createElement('div');
-                    card.className = 'card';
-                    card.innerHTML = `
-                        <span><strong>Lab ID:</strong> ${record.labID}</span>
-                        <span><strong>Room Number:</strong> ${record.labNo}</span>
-                        <span><strong>Start Time:</strong> ${new Date(record.startTime).toLocaleString()}</span>
-                        <span><strong>End Time:</strong> ${new Date(record.endTime).toLocaleString()}</span>
+                    const entry = document.createElement('div');
+                    entry.classList.add('data-entry', 'record');
+                    entry.innerHTML = `
+                        <span>${index + 1}</span>
+                        <span>${record.labID}</span>
+                        <span>${record.labNo}</span>
+                        <span>${new Date(record.endTime).toLocaleDateString('en-us', { weekday:"short", year: "numeric", month: "short", day: "numeric" })}</span>
+                        <span>${new Date(record.startTime).toLocaleTimeString()}</span>
+                        <span>${new Date(record.endTime).toLocaleTimeString()}</span>
+
                     `;
-                    dataContainerS.appendChild(card);
+                    dataContainerS.appendChild(entry);
                 });
             } else {
                 dataContainerS.innerHTML = '<div>No records found</div>';
@@ -162,19 +176,22 @@ function loadRecords() {
         });
 }
 
-document.getElementById('search-input').addEventListener('input', function() {
-    const query = this.value.toLowerCase();
-    const cards = document.querySelectorAll('#data-containerS .card');
+// Load records on page load
+window.onload = loadRecords;
 
-    cards.forEach(card => {
-        const cardText = card.textContent.toLowerCase();
-        if (cardText.includes(query)) {
-            card.style.display = '';
-        } else {
-            card.style.display = 'none';
-        }
-    });
-});
+// document.getElementById('search-input').addEventListener('input', function() {
+//     const query = this.value.toLowerCase();
+//     const cards = document.querySelectorAll('#data-containerS .card');
+
+//     cards.forEach(card => {
+//         const cardText = card.textContent.toLowerCase();
+//         if (cardText.includes(query)) {
+//             card.style.display = '';
+//         } else {
+//             card.style.display = 'none';
+//         }
+//     });
+// });
 
 // Load room numbers and records on page load
 window.onload = function () {
