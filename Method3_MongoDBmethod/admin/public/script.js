@@ -127,6 +127,7 @@ document.getElementById('scheduleForm').addEventListener('submit', function (eve
 
 // Load records from the server
 function loadRecords() {
+    window.scroll(0,65); 
     fetch('/get-records')
         .then(response => {
             if (!response.ok) {
