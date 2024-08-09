@@ -2,11 +2,12 @@ const express = require('express');
 const WebSocket = require('ws');
 const http = require('http'); // Added http module
 const bodyParser = require('body-parser');
+const os = require('os');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 require('dotenv').config({ path: "../.env" });
 
 const app = express();
-const port = 4000; // Port for the Express server
+const port = 3000; // Port for the Express server
 const wsPort = 8080; // Port for the WebSocket server
 
 const uri = process.env.MONGODB_URI;
@@ -29,6 +30,19 @@ function toIST(date) {
     return new Date(new Date(date).getTime() + istOffset * 60 * 1000);
     // return date;
 }
+
+async function getIPAddress() {
+    const interfaces = os.networkInterfaces();
+    for (const name of Object.keys(interfaces)) {
+      for (const iface of interfaces[name]) {
+        // Skip over internal (i.e. 127.0.0.1) and non-IPv4 addresses
+        if (iface.family === 'IPv4' && !iface.internal) {
+          return iface.address;
+        }
+      }
+    }
+    return '0.0.0.0';
+  }
 
 async function connectToMongoDB() {
     if (!client) {
@@ -190,7 +204,7 @@ app.get('/get-room-numbers', async (req, res) => {
 });
 
 
-function setupWebSocketServer() {
+async function setupWebSocketServer() {
     const wss = new WebSocket.Server({ port: wsPort });
     const clients = new Set(); // Using a Set to manage connected clients
 
@@ -245,6 +259,7 @@ function setupWebSocketServer() {
         ws.on('close', () => {
             console.log('WebSocket client disconnected');
             clients.delete(ws); // Remove client from Set
+            setupWebSocketServer();
         });
 
         ws.on('error', (error) => {
