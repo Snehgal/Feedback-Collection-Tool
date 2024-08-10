@@ -125,6 +125,13 @@ document.getElementById('scheduleForm').addEventListener('submit', function (eve
     });
 });
 
+function adjustIST(date) {
+    // // Convert UTC date to IST (UTC+5:30)
+    const istOffset = 5 * 60 + 30; // IST is UTC+5:30
+    return new Date(new Date(date).getTime() - istOffset * 60 * 1000);
+    // return date;
+}
+
 // Load records from the server
 function loadRecords() {
     window.scroll(0,65); 
@@ -161,9 +168,9 @@ function loadRecords() {
                         <span>${index + 1}</span>
                         <span>${record.labID}</span>
                         <span>${record.labNo}</span>
-                        <span>${new Date(record.endTime).toLocaleDateString('en-us', { weekday:"short", year: "numeric", month: "short", day: "numeric" })}</span>
-                        <span>${new Date(record.startTime).toLocaleTimeString()}</span>
-                        <span>${new Date(record.endTime).toLocaleTimeString()}</span>
+                        <span>${adjustIST(new Date(record.endTime)).toLocaleDateString({ weekday:"short", year: "numeric", month: "short", day: "numeric" })}</span>
+                        <span>${adjustIST(new Date(record.startTime)).toLocaleTimeString()}</span>
+                        <span>${adjustIST(new Date(record.endTime)).toLocaleTimeString()}</span>
 
                     `;
                     dataContainerS.appendChild(entry);
@@ -177,8 +184,6 @@ function loadRecords() {
         });
 }
 
-// Load records on page load
-window.onload = loadRecords;
 
 // document.getElementById('search-input').addEventListener('input', function() {
 //     const query = this.value.toLowerCase();

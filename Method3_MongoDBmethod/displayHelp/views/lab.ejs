@@ -247,19 +247,19 @@
                     </strong> | <%= help.helpStarted.toLocaleTimeString() %>
                         <div class="dropdown" id="dropdown-<%= help.tableID %>">
                             <div class="dropdown-item"
-                                onclick="logIssue('<%= help.tableID %>', 'Faulty Trainer Kit', '<%= help.helpStarted.toLocaleTimeString() %>')">
+                                onclick="logIssue('<%= help.tableID %>', 'Faulty Trainer Kit', '<%= help.helpStarted %>')">
                                 Faulty Trainer Kit</div>
                             <div class="dropdown-item"
-                                onclick="logIssue('<%= help.tableID %>', 'Faulty Equipment', '<%= help.helpStarted.toLocaleTimeString() %>')">
+                                onclick="logIssue('<%= help.tableID %>', 'Faulty Equipment', '<%= help.helpStarted %>')">
                                 Faulty Equipment</div>
                             <div class="dropdown-item"
-                                onclick="logIssue('<%= help.tableID %>', 'Wrong Instructions', '<%= help.helpStarted.toLocaleTimeString() %>')">
+                                onclick="logIssue('<%= help.tableID %>', 'Wrong Instructions', '<%= help.helpStarted %>')">
                                 Wrong Instructions</div>
                             <div class="dropdown-item"
-                                onclick="logIssue('<%= help.tableID %>', 'Wifi Connectivity', '<%= help.helpStarted.toLocaleTimeString() %>')">
+                                onclick="logIssue('<%= help.tableID %>', 'Wifi Connectivity', '<%= help.helpStarted %>')">
                                 Wifi Connectivity</div>
                             <div class="dropdown-item"
-                                onclick="logIssue('<%= help.tableID %>', 'Others/Indeterminate', '<%= help.helpStarted.toLocaleTimeString() %>')">
+                                onclick="logIssue('<%= help.tableID %>', 'Others/Indeterminate', '<%= help.helpStarted%>')">
                                 Others/Indeterminate</div>
                         </div>
                 </div>
@@ -302,6 +302,7 @@
         }
 
         function logIssue(tableID, issue, time) {
+            console.log("Received to log unresolved: ",tableID,issue,time);
             fetch('/log-issue', {
                 method: 'POST',
                 headers: {

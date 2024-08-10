@@ -40,12 +40,18 @@ async function connectToMongoDB() {
 function toIST(date) {
     // Convert UTC date to IST (UTC+5:30)
     const istOffset = 5 * 60 + 30; // IST is UTC+5:30
+    return new Date(date.getTime() + istOffset * 60 * 1000);
+}
+
+function updateIST(date) {
+    // Convert UTC date to IST (UTC+5:30)
+    const istOffset = 5 * 60 + 30; // IST is UTC+5:30
     return new Date(date.getTime() - istOffset * 60 * 1000);
 }
 
 app.get('/', async (req, res) => {
 try {
-    const currentTime = (new Date());
+    const currentTime = toIST(new Date());
     console.log('Current date and time in IST:', currentTime.toISOString());
 
     // Get ongoing schedules
@@ -99,7 +105,7 @@ app.get('/lab/:labID', async (req, res) => {
         // Convert unresolvedHelps to IST
         const unresolvedHelpsInIST = unresolvedHelps.map(help => ({
             ...help,
-            issueRaised: toIST(new Date(help.issueRaised)) // Convert issueRaised to IST
+            issueRaised: updateIST(new Date()) // Convert issueRaised to IST
         }));
 
         // Fetch active helps for the specific labID
@@ -111,7 +117,7 @@ app.get('/lab/:labID', async (req, res) => {
         // Convert helpStarted to IST for the specific lab
         const helpsInIST = helps.map(help => ({
             ...help,
-            helpStarted: toIST(new Date(help.helpStarted)) // Convert helpStarted to IST
+            helpStarted: updateIST(new Date(help.helpStarted)) // Convert helpStarted to IST
         }));
 
         // Fetch the lab number
@@ -145,7 +151,7 @@ async function getLabID(tableID) {
             throw new Error(`Invalid labNo retrieved for tableID: ${tableID}`);
         }
 
-        const currentTime = toIST(new Date());
+        const currentTime = updateIST(new Date());
 
         const schedule = await db.collection('Schedule').findOne({
             labNo: labNo,
@@ -175,9 +181,10 @@ app.post('/log-issue', async (req, res) => {
             labID: labID,
             tableID: parseInt(tableID),
             issue,
-            issueRaised: time
+            issueRaised: new Date(time)
         };
-
+        console.log("Inseting unresolved:",newIssue);
+        
         // Insert the new issue into UnresolvedHelps
         await db.collection('UnresolvedHelps').insertOne(newIssue);
 
