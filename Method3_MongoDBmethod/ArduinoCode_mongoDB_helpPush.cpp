@@ -6,7 +6,7 @@ const char* ssid = "LaptopCS";     // Replace with your WiFi credentials
 const char* password = "Chirag@2024";
 
 // WebSocket server address
-const char* webSocketServerAddress = "192.168.172.71"; // IP of the Node.js server
+const char* webSocketServerAddress = "192.168.168.36"; // IP of the Node.js server
 const int webSocketServerPort = 8080;
 const char* webSocketServerPath = "/";
 
@@ -17,6 +17,7 @@ WebSocketsClient webSocket;
 const int numDevices = 4; // Number of devices connected
 const int moduleID = 1000; // Base ID for devices
 int ids[numDevices];
+int response[numDevices];
 
 // debouncing
 const int debounceDelay = 50;  // debounce time in milliseconds
@@ -28,6 +29,7 @@ int buttonState[numDevices] = {HIGH};  // current state of the button
 void setupID() {
   for (int i = 0; i < numDevices; i++) {
     ids[i] = moduleID + i + 1; // Adjust ID assignment
+    response[i]=-1;
   }
 }
 
@@ -67,7 +69,9 @@ void setup() {
   pinMode(D6, INPUT_PULLUP);
   pinMode(D7, INPUT_PULLUP);
   // pinMode(D8, INPUT_PULLUP);
-
+  for(int i=0;i<numDevices;i++){
+    Serial.println(ids[i]);
+  }
   }
 
 // Function to send data
@@ -77,7 +81,7 @@ void sendData(int id, int value) {
   Serial.print("Sent:");
   Serial.println(dataToSend);
 }
-
+int lastValue;
 // Function to decrypt and process input
 void decryptInput(int a, int b, int id) {
   int value;
@@ -90,20 +94,15 @@ void decryptInput(int a, int b, int id) {
   } else {
     return; // no action if no valid input
   }
-  sendData(id, value);
+  lastValue=response[id-moduleID];
+  if(lastValue!=value){
+    sendData(id, value);
+    response[id-moduleID]=value;
+  }
 }
 
 void loop() {
 
-  // if (webSocket.isConnected()) {
-  //       Serial.println("Connection.");
-  //   }
-  // else{
-  //     Serial.println("Disconnected.");
-  //     webSocket.begin(webSocketServerAddress, webSocketServerPort, webSocketServerPath);
-  //     webSocket.onEvent(webSocketEvent);
-  //     Serial.println("WebSocket client connected.");
-  // }
   int a=1;
   int b=1;
   //a=1 b=1 -> no input
@@ -142,7 +141,7 @@ void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
   switch (type) {
     case WStype_DISCONNECTED:
       Serial.printf("WebSocket Disconnected!\n");
-      ESP.reset();
+      // ESP.reset();
       break;
     case WStype_CONNECTED:
       Serial.printf("WebSocket Connected to %s\n", webSocketServerAddress);

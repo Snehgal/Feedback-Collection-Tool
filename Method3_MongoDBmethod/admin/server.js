@@ -259,7 +259,6 @@ async function setupWebSocketServer() {
         ws.on('close', () => {
             console.log('WebSocket client disconnected');
             clients.delete(ws); // Remove client from Set
-            setupWebSocketServer();
         });
 
         ws.on('error', (error) => {
