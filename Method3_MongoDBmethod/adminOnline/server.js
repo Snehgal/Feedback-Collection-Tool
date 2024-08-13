@@ -211,11 +211,12 @@ async function setupWebSocketServer() {
     wss.on('connection', (ws) => {
         console.log('WebSocket client connected');
         clients.add(ws);
+        client.send("Connected");
 
         ws.on('message', async (message) => {
             try {
                 console.log('Received message:', message.toString());
-
+                let resp;
                 // Ensure message is a string
                 const messageStr = typeof message === 'string' ? message : message.toString();
 
@@ -241,9 +242,12 @@ async function setupWebSocketServer() {
                 } else {
                     await logToResponses(labID, tableID, value);
                 }
+                if(value==0){resp="No";}
+                else if(value==1){resp="Yes";}
+                else if(value==2){resp="Help";}
 
                 // Send a confirmation message back to clients
-                const messageToSend = `tableID: ${tableID}, value: ${value}`;
+                const messageToSend = `tableID: ${tableID}, value: ${resp}`;
                 clients.forEach(client => {
                     if (client.readyState === WebSocket.OPEN) {
                         client.send(messageToSend);
