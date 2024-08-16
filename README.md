@@ -1,4 +1,4 @@
-# Feedback-Collection-Tool
+# SurveySync - A Feedback Collection Tool
 
 Using the ESP8266 (NodeMCU) to send data through WebSocket and log this data into a database, and create a dashboard to show the data changes in real time.
 
